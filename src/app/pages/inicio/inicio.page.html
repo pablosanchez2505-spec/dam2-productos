@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Inicio</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding ion-text-center">
+  <h2>Bienvenido a la App</h2>
+  
+  <!-- Botones de navegación -->
+  <ion-button expand="block" routerLink="/productos">Ver Productos</ion-button>
+  <ion-button expand="block" color="secondary" routerLink="/about">Acerca de (About)</ion-button>
+
+  <!-- Interruptor para el Modo Oscuro -->
+  <ion-item lines="none" class="ion-margin-top">
+    <ion-label>Modo Oscuro</ion-label>
+    <ion-toggle (ionChange)="toggleDarkMode($event)"></ion-toggle>
+  </ion-item>
+</ion-content>

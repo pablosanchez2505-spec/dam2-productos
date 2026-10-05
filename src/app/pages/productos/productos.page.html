@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/inicio"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="loading" class="ion-text-center">
+    <ion-spinner name="crescent"></ion-spinner>
+  </div>
+
+  <div *ngIf="error" class="ion-text-center">
+    <p color="danger">{{ error }}</p>
+  </div>
+
+  <!-- Lista de Productos -->
+  <ion-card *ngFor="let p of products">
+    <ion-card-header>
+      <ion-card-title>{{ p.title }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Precio:</strong> {{ p.price | currency:'EUR' }}</p>
+      <p><strong>Descuento:</strong> {{ p.discountPercentage }}%</p>
+      <p><strong>Stock:</strong> {{ p.stock }} unidades</p>
+      <!-- Dimensiones -->
+      <p><strong>Dimensiones:</strong> Ancho: {{ p.dimensions.width }} cm | Alto: {{ p.dimensions.height }} cm</p>
+      <!-- Stock Valorado -->
+      <p><strong>Stock Valorado:</strong> {{ calcularStockValorado(p) | currency:'EUR' }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Controles de Paginación -->
+  <div class="ion-padding ion-text-center" style="display: flex; justify-content: space-between;">
+    <ion-button (click)="prevPage()" [disabled]="skip === 0">Anterior</ion-button>
+    <ion-button (click)="nextPage()" [disabled]="skip + limit >= total">Siguiente</ion-button>
+  </div>
+</ion-content>

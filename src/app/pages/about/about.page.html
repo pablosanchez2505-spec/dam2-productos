@@ -1,15 +1,29 @@
 <ion-header>
-  <ion-toolbar color="primary">
+  <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/inicio"></ion-back-button>
     </ion-buttons>
-    <ion-title>Acerca de</ion-title>
+    <ion-title>About</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Sobre Nuestra Empresa</h2>
-  <p>Somos una empresa dedicada al desarrollo de software avanzado y aplicaciones móviles híbridas eficientes.</p>
-  <p>Visita mi perfil personal en GitHub haciendo clic en el siguiente enlace:</p>
-  <a href="https://github.com/tu-usuario-github" target="_blank">Ir a mi GitHub</a>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>DAM2 Productos S.L.</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        Somos una empresa ficticia dedicada al desarrollo de interfaces
+        multiplataforma. Este proyecto es una demo academica del modulo
+        Desarrollo de Interfaces que consume la API publica dummyjson.com.
+      </p>
+      <ion-button
+        expand="block"
+        href="https://github.com/pablosanchez2505-spec"
+        target="_blank">
+        Mi perfil de GitHub
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -3,38 +3,74 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/inicio"></ion-back-button>
     </ion-buttons>
-    <ion-title>Productos</ion-title>
+    <ion-title>Dashboard de Productos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <div *ngIf="loading" class="ion-text-center">
-    <ion-spinner name="crescent"></ion-spinner>
+  
+  <!-- Spinner de carga -->
+  <div *ngIf="loading" class="ion-text-center ion-padding">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <p>Cargando catálogo...</p>
   </div>
 
   <div *ngIf="error" class="ion-text-center">
     <p color="danger">{{ error }}</p>
   </div>
 
-  <!-- Lista de Productos -->
-  <ion-card *ngFor="let p of products">
-    <ion-card-header>
-      <ion-card-title>{{ p.title }}</ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Precio:</strong> {{ p.price | currency:'EUR' }}</p>
-      <p><strong>Descuento:</strong> {{ p.discountPercentage }}%</p>
-      <p><strong>Stock:</strong> {{ p.stock }} unidades</p>
-      <!-- Dimensiones -->
-      <p><strong>Dimensiones:</strong> Ancho: {{ p.dimensions.width }} cm | Alto: {{ p.dimensions.height }} cm</p>
-      <!-- Stock Valorado -->
-      <p><strong>Stock Valorado:</strong> {{ calcularStockValorado(p) | currency:'EUR' }}</p>
-    </ion-card-content>
-  </ion-card>
+  <!-- Rejilla Dashboard (Grid) -->
+  <ion-grid *ngIf="!loading">
+    <ion-row>
+      <!-- Cada producto ocupa 12 columnas en móvil (1 por fila), 6 en tablets (2 por fila) y 4 en escritorio (3 por fila) -->
+      <ion-size-12 ion-size-md="6" ion-size-lg="4" *ngFor="let p of products">
+        <ion-card class="product-dashboard-card">
+          
+          <ion-card-header>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <ion-card-subtitle color="medium">ID: {{ p.id }}</ion-card-subtitle>
+              <ion-badge color="success">-{{ p.discountPercentage }}%</ion-badge>
+            </div>
+            <ion-card-title style="font-size: 1.1rem; margin-top: 5px;">{{ p.title }}</ion-card-title>
+          </ion-card-header>
 
-  <!-- Controles de Paginación -->
-  <div class="ion-padding ion-text-center" style="display: flex; justify-content: space-between;">
-    <ion-button (click)="prevPage()" [disabled]="skip === 0">Anterior</ion-button>
-    <ion-button (click)="nextPage()" [disabled]="skip + limit >= total">Siguiente</ion-button>
+          <ion-card-content>
+            <!-- Bloque de Precio y Stock -->
+            <div class="stat-box" style="background: var(--ion-color-step-100, #f4f5f8); padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+              <p style="margin: 0; font-size: 0.9rem;"><strong>Precio:</strong> {{ p.price | currency:'EUR' }}</p>
+              <p style="margin: 5px 0 0 0; font-size: 0.9rem;"><strong>Stock disponible:</strong> {{ p.stock }} uds.</p>
+            </div>
+
+            <!-- Dimensiones -->
+            <p style="font-size: 0.85rem; color: var(--ion-color-step-600, #666);">
+              📐 <strong>Dimensiones:</strong> {{ p.dimensions.width }} x {{ p.dimensions.height }} cm
+            </p>
+
+            <!-- Stock Valorado (El cálculo del cliente) -->
+            <div style="margin-top: 10px; border-top: 1px dashed var(--ion-color-step-300, #ccc); padding-top: 8px;">
+              <span style="font-size: 0.85rem; color: var(--ion-color-primary);"><strong>Valor Total Stock:</strong></span>
+              <p style="font-size: 1.2rem; font-weight: bold; color: var(--ion-color-success, #2dd36f); margin: 2px 0 0 0;">
+                {{ calcularStockValorado(p) | currency:'EUR' }}
+              </p>
+            </div>
+          </ion-card-content>
+
+        </ion-card>
+      </ion-size-12>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Controles de Paginación Estilizados -->
+  <div class="ion-padding ion-text-center" style="display: flex; justify-content: space-between; align-items: center; margin-top: 20px;">
+    <ion-button fill="outline" (click)="prevPage()" [disabled]="skip === 0">
+      Anterior
+    </ion-button>
+    <span style="font-size: 0.9rem; color: var(--ion-color-medium);">
+      Mostrando del {{ skip + 1 }} al {{ skip + products.length }} de {{ total }}
+    </span>
+    <ion-button fill="outline" (click)="nextPage()" [disabled]="skip + limit >= total">
+      Siguiente
+    </ion-button>
   </div>
+
 </ion-content>
